@@ -1,0 +1,28 @@
+.listar-user-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 3rem;
+}
+
+.listar-user-info {
+  display: flex;
+  align-items: center;
+}
+
+.listar-user-label {
+  margin-right: 0.5rem;
+}
+
+.listar-user-select {
+  margin-right: 0.5rem;
+}
+
+.listar-user-entries {
+  margin-left: 0.5rem;
+}
+
+.search-input {
+  max-width: 200px;
+  margin-right: 8px;
+}

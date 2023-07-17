@@ -1,0 +1,42 @@
+<div class="modal-header">
+    <button type="button" class="close" aria-label="Fechar"
+            (click)="activeModal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="modalLabel"> Usuário </h4>
+</div>
+<div class="modal-body" text-center>
+    <form #formUser="ngForm">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="text" class="form-control" id="email" name="email"
+            [(ngModel)]="user.email"
+            #email="ngModel"
+            minlength="9" required>
+            <div *ngIf="email.errors && (email.dirty || email.touched)"
+                class="alert alert-danger">
+                <div> Digite o email do usuário.</div>
+                <div> O email deve conter pelo menos 9 caracteres. </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" name="username"
+                    [(ngModel)]="user.username"
+                    #username="ngModel"
+                    minlength="4" required>
+            <div *ngIf="username.errors && (username.dirty || username.touched)" 
+                class="alert alert-danger">
+                <div> Digite o username do usuário.</div>
+                <div> O username deve conter pelo menos 4 caracteres. </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer d-flex justify-content-end">
+    <button type="button" class="btn btn-primary"
+            (click)="inserir()"
+            [disabled]="!formUser.form.valid">
+        Salvar
+    </button>
+</div>

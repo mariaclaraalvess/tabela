@@ -1,0 +1,50 @@
+<h1>Usuários</h1>
+
+<div>
+  <button type="button" class="btn btn-primary" (click)="abrirModalnewUser(users[0])">
+    Adicionar Novo Usuário
+  </button>
+</div>
+  <div class="input-group justify-content-end ml-auto">
+    <input type="text" class="form-control search-input" [(ngModel)]="userUsername" placeholder="Pesquisar por usuário" (keydown.enter)="pesquisarUsuario()">
+    <div class="input-group-append">
+      <button type="button" class="btn btn-primary" (click)="pesquisarUsuario()">Pesquisar</button>
+    </div>
+  </div>
+
+<div *ngIf="usuarioEncontrado">
+  <h2>Usuário Encontrado:</h2>
+  <p>ID: {{ usuarioEncontrado.id }}</p>
+  <p>Email: {{ usuarioEncontrado.email }}</p>
+  <p>Username: {{ usuarioEncontrado.username }}</p>
+</div>
+<table class="table table-striped table-bordered table-hover">
+ <thead>
+    <tr>
+      <th>ID</th>
+      <th>Email</th>
+      <th>Username</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{ user.id }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.username }}</td>
+      <td class="text-center" style="width: 300px">
+        <button type="button" class="btn btn-xs btn-info" (click)="abrirModalUser(user)">
+          <i class="fa fa-eye" aria-hidden="true"></i>
+        </button>
+        <a [routerLink]="['/users/editar', user.id]" href="#" title="Editar" alt="Editar" class="btn btn-xs btn-warning">
+          <i class="fa fa-edit" aria-hidden="true"></i>
+        </a>
+        <a href="#" title="Remover" alt="Remover" class="btn btn-xs btn-danger" (click)="remover($event, user)">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p *ngIf="users.length == 0">Nenhum usuário cadastrado</p>
