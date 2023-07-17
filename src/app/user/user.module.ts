@@ -15,6 +15,7 @@ import { ModalnewUserComponent } from './modalnew-user/modalnew-user.component';
 
 
 
+
 @NgModule({
   declarations: [
     ListarUserComponent,

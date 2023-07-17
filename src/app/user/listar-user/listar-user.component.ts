@@ -15,7 +15,8 @@ export class ListarUserComponent implements OnInit {
   users: User[] = [];
   userUsername: string = '';
   usuarioEncontrado: User | undefined;
-  usuarios: User[] = [];
+  usuarios: User[] = USUARIOS;
+  mostrarDadosMockados: boolean = true;
 
   constructor(
     private userService: UserService,
@@ -28,14 +29,14 @@ export class ListarUserComponent implements OnInit {
 
   listarUsuarios(): void {
     this.users = this.userService.listarTodos();
-    this.usuarios = [...this.users, ...USUARIOS];
+    this.mostrarDadosMockados = this.users.length === 0; // Verifica se existem usuários inseridos
   }
 
   remover($event: any, user: User): void {
     $event.preventDefault();
     if (confirm(`Deseja realmente remover o usuário ${user.username}?`)) {
       this.userService.remover(user.id!);
-      this.listarUsuarios();
+      this.listarUsuarios(); // Atualiza os usuários após remover um usuário
     }
   }
 
@@ -49,19 +50,14 @@ export class ListarUserComponent implements OnInit {
     modalRef.result.then((result: User | undefined) => {
       if (result) {
         if (!result.id) {
+          // Atribui um ID válido caso não tenha sido fornecido
           result.id = this.getNextId();
         }
-        this.users.push(result);
-        this.listarUsuarios();
+        this.users.push(result); // Adiciona o novo usuário à lista de usuários
+        this.mostrarDadosMockados = false; // Não mostra mais os dados mockados
       }
     });
   }
-  
-  getNextId(): number {
-    const maxId = Math.max(...this.users.map((user) => user.id ?? 0));
-    return maxId > 0 ? maxId + 1 : 1;
-  }
-  
 
   pesquisarUsuario() {
     this.userService.buscarPorUsername(this.userUsername).subscribe(
@@ -71,4 +67,8 @@ export class ListarUserComponent implements OnInit {
     );
   }
 
+  getNextId(): number {
+    const maxId = Math.max(...this.users.map((user) => user.id ?? 0));
+    return maxId > 0 ? maxId + 1 : 1;
+  }
 }
