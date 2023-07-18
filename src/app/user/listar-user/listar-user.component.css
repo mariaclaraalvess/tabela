@@ -1,3 +1,4 @@
+/* Estilos para a seção de listagem de usuários */
 .listar-user-container {
   display: flex;
   justify-content: space-between;
@@ -10,21 +11,25 @@
   align-items: center;
 }
 
+/* Estilizando rótulo */
 .listar-user-label {
-  margin-right: 0.5rem;
+  margin-right: 0.5rem; 
 }
 
+/* Estilizando seletor */
 .listar-user-select {
-  margin-right: 0.5rem;
+  margin-right: 0.5rem; 
 }
 
+/* Estilizando contagem de entradas */
 .listar-user-entries {
-  margin-left: 0.5rem;
+  margin-left: 0.5rem; 
 }
 
+/* Estilizando campo de pesquisa */
 .search-input {
   max-width: 200px;
-  margin-right: 8px;
+  margin-right: 8px; 
 }
 
 .pagination-navigation {
@@ -33,10 +38,7 @@
   margin-top: 1rem;
 }
 
-.justify {
-  margin-right: 8px;
-}
-
+/*Espaçamento show...*/
 .pagination-container {
-  margin-bottom: 10px; /* Adicione o espaço desejado aqui */
+  margin-bottom: 10px;
 }

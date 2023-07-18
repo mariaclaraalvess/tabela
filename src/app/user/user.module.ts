@@ -7,7 +7,6 @@ import { ListarUserComponent } from './listar-user/listar-user.component';
 
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
-import { InserirUserComponent } from './inserir-user/inserir-user.component';
 import { EditarUserComponent } from './editar-user/editar-user.component';
 import { ModalUserComponent } from './modal-user/modal-user.component';
 import { ModalnewUserComponent } from './modalnew-user/modalnew-user.component';
@@ -20,7 +19,6 @@ import { ModalnewUserComponent } from './modalnew-user/modalnew-user.component';
 @NgModule({
   declarations: [
     ListarUserComponent,
-    InserirUserComponent,
     EditarUserComponent,
     ModalUserComponent,
     ModalnewUserComponent
