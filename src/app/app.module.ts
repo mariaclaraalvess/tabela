@@ -17,6 +17,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     UserModule,
     BrowserAnimationsModule,
     NgxPaginationModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

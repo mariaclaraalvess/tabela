@@ -26,3 +26,17 @@
   max-width: 200px;
   margin-right: 8px;
 }
+
+.pagination-navigation {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.justify {
+  margin-right: 8px;
+}
+
+.pagination-container {
+  margin-bottom: 10px; /* Adicione o espaço desejado aqui */
+}

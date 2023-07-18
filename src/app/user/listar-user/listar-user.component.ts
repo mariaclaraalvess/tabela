@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalUserComponent } from '../modal-user/modal-user.component';
 import { ModalnewUserComponent } from '../modalnew-user/modalnew-user.component';
 import { USUARIOS } from '../mock-data';
+import { orderBy } from 'lodash';
 
 
 @Component({
@@ -20,13 +21,17 @@ export class ListarUserComponent implements OnInit {
   mostrarDadosMockados: boolean = true;
   public paginaAtual = 1;
   linhasPorPagina = 5;
+  itensPorPagina: number = 5;
+  totalUsuarios: number = 0;
+  totalPaginas: number = 0;
 
-  atualizarPaginacao() {
+  atualizarPaginacao(): void {
     this.paginaAtual = 1;
+    this.itensPorPagina = this.linhasPorPagina;
     this.listarUsuarios();
   }
   
-
+  
   constructor(
     private userService: UserService,
     private modalService: NgbModal
@@ -38,12 +43,27 @@ export class ListarUserComponent implements OnInit {
 
   listarUsuarios(): void {
     this.users = this.userService.listarTodos();
-    const indiceInicio = (this.paginaAtual - 1) * this.linhasPorPagina;
-    const indiceFim = indiceInicio + this.linhasPorPagina;
-    this.users = this.users.slice(indiceInicio, indiceFim);
+    this.totalUsuarios = this.users.length;
+    this.totalPaginas = Math.ceil(this.totalUsuarios / this.itensPorPagina);
+    const indiceInicio = (this.paginaAtual - 1) * this.itensPorPagina;
+  
+    if (this.paginaAtual === this.totalPaginas && this.totalUsuarios % this.itensPorPagina !== 0) {
+      const itensRestantes = this.totalUsuarios % this.itensPorPagina;
+      const indiceFim = indiceInicio + itensRestantes;
+      this.users = orderBy(this.users, ['username'], ['asc']);
+      this.users = this.users.slice(indiceInicio, indiceFim);
+    } else {
+      const indiceFim = indiceInicio + this.itensPorPagina;
+      this.users = orderBy(this.users, ['username'], ['asc']);
+      this.users = this.users.slice(indiceInicio, indiceFim);
+    }
+  
     this.mostrarDadosMockados = this.users.length === 0;
   }
+  
+   
 
+  //propriedade do botão de remover
   remover($event: any, user: User): void {
     $event.preventDefault();
     if (confirm(`Deseja realmente remover o usuário ${user.username}?`)) {
@@ -52,11 +72,13 @@ export class ListarUserComponent implements OnInit {
     }
   }
 
+  //propriedade do botão visualizar
   abrirModalUser(user: User) {
     const modalRef = this.modalService.open(ModalUserComponent);
     modalRef.componentInstance.user = user;
   }
 
+  //propriedade do botão add new user
   abrirModalnewUser(user: User) {
     const modalRef = this.modalService.open(ModalnewUserComponent);
     modalRef.result.then((result: User | undefined) => {
@@ -70,6 +92,7 @@ export class ListarUserComponent implements OnInit {
     });
   }
 
+  //propriedade do search
   pesquisarUsuario() {
     this.userService.buscarPorUsername(this.userUsername).subscribe(
       (usuario: User | undefined) => {
@@ -82,4 +105,25 @@ export class ListarUserComponent implements OnInit {
     const maxId = Math.max(...this.users.map((user) => user.id ?? 0));
     return maxId > 0 ? maxId + 1 : 1;
   }
+
+  paginaAnterior(): void {
+    this.paginaAtual--;
+    this.listarUsuarios();
+  }
+  
+  proximaPagina(): void {
+    this.paginaAtual++;
+    this.listarUsuarios();
+  }
+
+  paginaPrimeira(): void {
+    this.paginaAtual = 1;
+    this.listarUsuarios();
+  }
+
+  paginaUltima(): void {
+    this.paginaAtual = this.totalPaginas;
+    this.listarUsuarios();
+  }
+  
 }

@@ -1,18 +1,21 @@
 <h1>Usuários</h1>
 
+<!--botão para adicionar novo usuário-->
 <div>
   <button type="button" class="btn btn-primary" (click)="abrirModalnewUser(users[0])">
-    Adicionar Novo Usuário
+    Add New User
   </button>
 </div>
 
+<!--barra de pesquisa-->
 <div class="input-group justify-content-end ml-auto">
-  <input type="text" class="form-control search-input" [(ngModel)]="userUsername" placeholder="Pesquisar por usuário" (keydown.enter)="pesquisarUsuario()">
+  <input type="text" class="form-control search-input" [(ngModel)]="userUsername" placeholder="Search" (keydown.enter)="pesquisarUsuario()">
   <div class="input-group-append">
     <button type="button" class="btn btn-primary" (click)="pesquisarUsuario()">Pesquisar</button>
   </div>
 </div>
 
+<!--resultado da pesquisa-->
 <div *ngIf="usuarioEncontrado">
   <h2>Usuário Encontrado:</h2>
   <p>ID: {{ usuarioEncontrado.id }}</p>
@@ -20,15 +23,20 @@
   <p>Username: {{ usuarioEncontrado.username }}</p>
 </div>
 
-<div>
-  <label for="linhasPorPagina">Linhas por página:</label>
+<!--paginação-->
+<div class="pagination-container">
+  <label for="linhasPorPagina">Show</label>
   <select id="linhasPorPagina" [(ngModel)]="linhasPorPagina" (change)="atualizarPaginacao()">
     <option value="5">5</option>
     <option value="10">10</option>
     <option value="20">20</option>
   </select>
+  <label for="linhasPorPagina">entries</label>
 </div>
 
+
+
+<!--dados reais-->
 <div *ngIf="mostrarDadosMockados">
   <table class="table table-striped table-bordered table-hover">
     <thead>
@@ -40,7 +48,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of users | paginate: { itemsPerPage: 5, currentPage: paginaAtual }; let i = index">
+      <tr *ngFor="let user of users | paginate: { itemsPerPage: itensPorPagina, currentPage: paginaAtual }; let i = index">
         <td>{{ user.id }}</td>
         <td>{{ user.email }}</td>
         <td>{{ user.username }}</td>
@@ -59,8 +67,8 @@
     </tbody>
   </table>
 </div>
-<pagination-controls (pageChange)="paginaAtual = $event"></pagination-controls>
 
+<!--dados mockados-->
 <table class="table table-striped table-bordered table-hover" *ngIf="!mostrarDadosMockados">
   <thead>
     <tr>
@@ -89,6 +97,14 @@
     </tr>
   </tbody>
 </table>
+
+<div class="pagination-navigation justify-content-end">
+  <button  [disabled]="paginaAtual === 1" (click)="paginaPrimeira()">First</button>
+  <button  [disabled]="paginaAtual === 1" (click)="paginaAnterior()">Previous</button>
+  <button  [disabled]="paginaAtual === totalPaginas" (click)="proximaPagina()">Next</button>
+  <button  [disabled]="paginaAtual === totalPaginas" (click)="paginaUltima()">Last</button>
+</div>
+
 
 <p *ngIf="users.length === 0">Nenhum usuário cadastrado</p>
 <p *ngIf="usuarios.length === 0 && users.length === 0">Carregando...</p>
