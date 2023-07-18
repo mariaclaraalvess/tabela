@@ -20,6 +20,15 @@
   <p>Username: {{ usuarioEncontrado.username }}</p>
 </div>
 
+<div>
+  <label for="linhasPorPagina">Linhas por página:</label>
+  <select id="linhasPorPagina" [(ngModel)]="linhasPorPagina" (change)="atualizarPaginacao()">
+    <option value="5">5</option>
+    <option value="10">10</option>
+    <option value="20">20</option>
+  </select>
+</div>
+
 <div *ngIf="mostrarDadosMockados">
   <table class="table table-striped table-bordered table-hover">
     <thead>
@@ -31,7 +40,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of usuarios">
+      <tr *ngFor="let user of users | paginate: { itemsPerPage: 5, currentPage: paginaAtual }; let i = index">
         <td>{{ user.id }}</td>
         <td>{{ user.email }}</td>
         <td>{{ user.username }}</td>
@@ -50,6 +59,7 @@
     </tbody>
   </table>
 </div>
+<pagination-controls (pageChange)="paginaAtual = $event"></pagination-controls>
 
 <table class="table table-striped table-bordered table-hover" *ngIf="!mostrarDadosMockados">
   <thead>

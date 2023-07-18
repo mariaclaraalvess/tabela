@@ -6,6 +6,7 @@ import { ModalUserComponent } from '../modal-user/modal-user.component';
 import { ModalnewUserComponent } from '../modalnew-user/modalnew-user.component';
 import { USUARIOS } from '../mock-data';
 
+
 @Component({
   selector: 'app-listar-user',
   templateUrl: './listar-user.component.html',
@@ -17,6 +18,14 @@ export class ListarUserComponent implements OnInit {
   usuarioEncontrado: User | undefined;
   usuarios: User[] = USUARIOS;
   mostrarDadosMockados: boolean = true;
+  public paginaAtual = 1;
+  linhasPorPagina = 5;
+
+  atualizarPaginacao() {
+    this.paginaAtual = 1;
+    this.listarUsuarios();
+  }
+  
 
   constructor(
     private userService: UserService,
@@ -29,14 +38,17 @@ export class ListarUserComponent implements OnInit {
 
   listarUsuarios(): void {
     this.users = this.userService.listarTodos();
-    this.mostrarDadosMockados = this.users.length === 0; // Verifica se existem usuários inseridos
+    const indiceInicio = (this.paginaAtual - 1) * this.linhasPorPagina;
+    const indiceFim = indiceInicio + this.linhasPorPagina;
+    this.users = this.users.slice(indiceInicio, indiceFim);
+    this.mostrarDadosMockados = this.users.length === 0;
   }
 
   remover($event: any, user: User): void {
     $event.preventDefault();
     if (confirm(`Deseja realmente remover o usuário ${user.username}?`)) {
       this.userService.remover(user.id!);
-      this.listarUsuarios(); // Atualiza os usuários após remover um usuário
+      this.listarUsuarios();
     }
   }
 
@@ -50,11 +62,10 @@ export class ListarUserComponent implements OnInit {
     modalRef.result.then((result: User | undefined) => {
       if (result) {
         if (!result.id) {
-          // Atribui um ID válido caso não tenha sido fornecido
           result.id = this.getNextId();
         }
-        this.users.push(result); // Adiciona o novo usuário à lista de usuários
-        this.mostrarDadosMockados = false; // Não mostra mais os dados mockados
+        this.users.push(result);
+        this.mostrarDadosMockados = false;
       }
     });
   }

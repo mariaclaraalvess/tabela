@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { UserService } from './services/user.service';
 import { ListarUserComponent } from './listar-user/listar-user.component';
 
@@ -28,7 +29,8 @@ import { ModalnewUserComponent } from './modalnew-user/modalnew-user.component';
     CommonModule,
     RouterModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPaginationModule
   ],
   providers: [
     UserService
